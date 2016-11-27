@@ -15,17 +15,25 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
-      loaders: ['babel'],
       exclude: /node_modules/,
-      plugins: ['react-hot-loader/babel']
+      use: [
+        {
+          loader: 'babel-loader'
+        },
+      ]
     }, {
       test: /\.scss?$/,
-      loaders: ['style', 'css', 'sass']
+      use: [
+        { loader : 'style-loader'},
+        { loader : 'css-loader' },
+        { loader : 'sass-loader' }
+      ]
     }]
   }
 };

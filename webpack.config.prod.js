@@ -22,13 +22,21 @@ module.exports = {
     )
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
-      loaders: ['babel'],
-      exclude: /node_modules/
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'babel-loader'
+        },
+      ]
     }, {
       test: /\.scss?$/,
-      loaders: ['style', 'css', 'sass']
+      use: [
+        { loader : 'style-loader'},
+        { loader : 'css-loader' },
+        { loader : 'sass-loader' }
+      ]
     }]
   }
 };
