@@ -7,36 +7,16 @@ export default class {
   @observable monthlyOverpayment = 0;
   @observable overpayments = [{ year: 0, month: 1, amount: 0 }];
 
-  @action setYears = (val) => {
-    this.years = +val;
-  }
-
-  @action setRate = (val) => {
-    this.rate = +val;
-  }
-
-  @action setInitial = (val) => {
-    this.initial = +val;
-  }
-
-  @action setMonthlyOverpayment = (val) => {
-    this.monthlyOverpayment = +val;
-  }
-
-  @action addOverpayment = () => {
-    this.overpayments.push({ year: 0, month: 1, amount: 0 });
-  }
-
-  @action removeOverpayment = (index) => {
-    this.overpayments.splice(index, 1);
-  }
-
-  @action setOverpayment = (field, index, val) => {
-    this.overpayments[index][field] = +val;
-  }
+  @action setYears = (val) => this.years = val;
+  @action setRate = (val) => this.rate = val;
+  @action setInitial = (val) => this.initial = val;
+  @action setMonthlyOverpayment = (val) => this.monthlyOverpayment = val;
+  @action addOverpayment = () => this.overpayments.push({ year: 0, month: 1, amount: 0 });
+  @action removeOverpayment = (index) => this.overpayments.splice(index, 1);
+  @action setOverpayment = (field, index, val) => this.overpayments[index][field] = val;
 
   @computed get monthlyPayment() {
-    return this.initial * (this.rate / 1200) / (1 - Math.pow(1 / (1 + this.rate / 1200), this.years * 12));
+    return +this.initial * (this.rate / 1200) / (1 - Math.pow(1 / (1 + this.rate / 1200), this.years * 12));
   }
 
   @computed get monthlyPaymentTotal() {
@@ -46,8 +26,8 @@ export default class {
   @computed get payments() {
     const monthlyRatePct = this.rate / 1200;
 
-    let balance = this.initial;
-    let baseline = this.initial;
+    let balance = +this.initial;
+    let baseline = +this.initial;
     let payments = [{ overpayment: 0, balance, baseline }];
     let partial;
 
@@ -55,8 +35,8 @@ export default class {
       let interestYearly = 0;
       let overpaymentYearly = 0;
       for (let month = 1; month <= 12; month++) {
-        const overpayment = this.overpayments.filter(x => (x.year === year && x.month === month))
-          .reduce((acc, val) => acc + val.amount, 0);
+        const overpayment = this.overpayments.filter(x => (x.year == year && x.month == month))
+          .reduce((acc, val) => acc + (+val.amount), 0);
         const interestMonth = balance * monthlyRatePct;
         interestYearly += interestMonth;
         overpaymentYearly += overpayment;
