@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 
 import '../styles/Chart.scss';
 import { select } from 'd3-selection';
@@ -26,9 +27,10 @@ const baselineGenerator = line()
   .x((d, i) => x(i))
   .y(d => y(d.baseline));
 
+@inject(({ store : { payments }}) => ({ payments })) @observer
 export default class Chart extends React.Component<> {
   render() {
-    const data = this.props.data;
+    const data = this.props.payments;
     x.domain([0, data.length - 1]);
     y.domain([data[0].balance, 0]);
 
@@ -47,15 +49,15 @@ export default class Chart extends React.Component<> {
   componentDidMount() {
     this.drawAxis();
   }
-  componentDidUpdate(nextProps){
-    if ((nextProps.data.length !== this.props.data.length) ||
-      (nextProps.data[0].balance !== this.props.data[0].balance)) {
+  componentDidUpdate({ payments }){
+    if ((payments.length !== this.props.payments.length) ||
+      (payments[0].balance !== this.props.payments[0].balance)) {
       this.drawAxis();
     }
     
   }
   drawAxis() {
-    this.xAxis.call(axisBottom().scale(x).ticks(Math.min(this.props.data.length, 30)));
+    this.xAxis.call(axisBottom().scale(x).ticks(Math.min(this.props.payments.length, 30)));
     this.yAxis.call(axisLeft().scale(y));
   }
 }

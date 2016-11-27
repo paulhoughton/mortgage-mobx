@@ -1,6 +1,7 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 
-export default ({ className, store }) => (
+export default inject(["store"])(observer(({ className, store }) => (
   <div className={className}>
     <div>
       <h2>Overpayment</h2>
@@ -25,4 +26,4 @@ export default ({ className, store }) => (
     }
 
   </div>
-);
+)));

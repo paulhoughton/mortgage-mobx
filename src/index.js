@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { useStrict } from 'mobx';
+import { Provider } from 'mobx-react';
 
 import App from './App';
 import Store from './store';
@@ -11,7 +12,9 @@ useStrict(true);
 
 render(
   <AppContainer>
-    <App store={store} />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </AppContainer>,
   document.getElementById('root')
 );
@@ -21,9 +24,9 @@ if (module.hot) {
     const App = require('./App').default;
 
     render(
-      <AppContainer>
-        <App store={store} />
-      </AppContainer>,
+      <Provider store={store}>
+        <App />
+      </Provider>,
       document.getElementById('root')
     );
   });
