@@ -20,7 +20,7 @@ export default class {
   }
 
   @computed get monthlyPaymentTotal() {
-    return (this.monthlyPayment + this.monthlyOverpayment).toFixed(2);
+    return (this.monthlyPayment + (+this.monthlyOverpayment)).toFixed(2);
   }
 
   @computed get payments() {
@@ -40,7 +40,7 @@ export default class {
         const interestMonth = balance * monthlyRatePct;
         interestYearly += interestMonth;
         overpaymentYearly += overpayment;
-        balance -= this.monthlyPayment + this.monthlyOverpayment + overpayment - interestMonth;
+        balance -= this.monthlyPayment + (+this.monthlyOverpayment) + overpayment - interestMonth;
         baseline -= this.monthlyPayment - (baseline * monthlyRatePct);
 
         if (balance <= 0) {
