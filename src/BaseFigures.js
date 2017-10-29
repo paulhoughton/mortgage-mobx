@@ -9,7 +9,7 @@ export default inject(["store"])(observer(({ className, store }) => (
     </div>
     <div>
       <label>Years</label>
-      <input type="number" maxLength="2" value={ store.years } onChange={e => store.setYears(+e.target.value) } />
+      <input type="number" maxLength="2" value={ store.years } onChange={e => store.setYears(e.target.value) } />
     </div>
     <div>
       <label>Rate</label>
